@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<attr name="public_primaryTextSelector" format="reference" />
+
+	<declare-styleable name="public_ProgressBar">
+		<attr name="public_barColor" format="color" />
+		<attr name="public_barHeight" format="dimension" />
+		<attr name="public_detentWidth" format="dimension" />
+		<attr name="public_useShadow" format="boolean" />
+	</declare-styleable>
+
+</resources>

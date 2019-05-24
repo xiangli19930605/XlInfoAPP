@@ -1,0 +1,41 @@
+package com.xgli.module_news.di.module;
+
+import com.jess.arms.di.scope.ActivityScope;
+
+import dagger.Binds;
+import dagger.Module;
+import dagger.Provides;
+
+import com.jess.arms.di.scope.FragmentScope;
+import com.xgli.module_news.mvp.contract.OtherNewPhotoSetContract;
+import com.xgli.module_news.mvp.model.OtherNewPhotoSetModel;
+import com.xgli.module_news.mvp.ui.fragment.adapter.OtherNewPhotoSetAdapter;
+import com.xgli.module_news.mvp.ui.fragment.adapter.OtherNewsListAdapter;
+
+
+/**
+ * ================================================
+ * Description:
+ * <p>
+ * Created by MVPArmsTemplate on 04/28/2019 16:09
+ * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
+ * <a href="https://github.com/JessYanCoding">Follow me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
+ * ================================================
+ */
+@Module
+public abstract class OtherNewPhotoSetModule {
+
+    @Binds
+    abstract OtherNewPhotoSetContract.Model bindOtherNewPhotoSetModel(OtherNewPhotoSetModel model);
+
+//    @ActivityScope
+//    @Provides
+//    public OtherNewPhotoSetAdapter provideOtherNewsListAdapter() {
+//        return new OtherNewPhotoSetAdapter();
+//    }
+
+
+}

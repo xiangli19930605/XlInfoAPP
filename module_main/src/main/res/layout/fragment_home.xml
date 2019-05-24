@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<include layout="@layout/toolbar"/>-->
+    <!--Toolbar -->
+    <android.support.design.widget.AppBarLayout
+        android:background="@color/colorPrimary"
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/public_AppTheme.AppBarOverlay">
+        <ImageView
+            android:layout_marginLeft="@dimen/dp_10"
+            android:id="@+id/iv_title_menu"
+            android:layout_width="23dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:src="@mipmap/titlebar_menu" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
+
+            <!--<include layout="@layout/toolbar"/>-->
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+        <ImageView
+            android:id="@+id/iv_search"
+            android:padding="@dimen/dp_10"
+            android:layout_gravity="right|center_vertical"
+            android:src="@mipmap/icon_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="486684646"/>
+</LinearLayout>

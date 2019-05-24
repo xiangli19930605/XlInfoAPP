@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<group android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_overall"
+			android:checked="true"
+			android:icon="@drawable/ic_view_grid_grey600_24dp"
+			android:title=""/>
+		<item
+			android:id="@+id/nav_selection_modes"
+			android:icon="@drawable/ic_view_grid_grey600_24dp"
+			android:title=""/>
+
+
+		<item
+			android:id="@+id/nav_horizontal"
+			android:enabled="false"
+			android:icon="@drawable/ic_view_grid_grey600_24dp"
+			android:title=""/>
+
+	</group>
+
+	<item android:title="Special Layouts">
+		<menu>
+			<item
+				android:id="@+id/nav_viewpager"
+				android:icon="@drawable/ic_view_grid_grey600_24dp"
+				android:title=""/>
+			<item
+				android:id="@+id/nav_dialogs"
+				android:enabled="false"
+				android:icon="@drawable/ic_view_grid_grey600_24dp"
+				android:title=""/>
+			<!--<item-->
+				<!--android:id="@+id/nav_switch"-->
+				<!--android:enabled="false"-->
+				<!--android:title="Grid Layout"-->
+				<!--app:actionLayout="@layout/action_view_switch"/>-->
+		</menu>
+	</item>
+
+	<item android:title="关于">
+		<menu>
+			<item
+				android:id="@+id/nav_about"
+				android:icon="@drawable/ic_view_grid_grey600_24dp"
+				android:title=""/>
+			<item
+				android:id="@+id/nav_github"
+				android:icon="@drawable/ic_view_grid_grey600_24dp"
+				android:title=""/>
+		</menu>
+	</item>
+
+</menu>

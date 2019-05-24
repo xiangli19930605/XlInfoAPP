@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">XlInfoApp</string>
+
+
+
+    <string name="home_pager">首页</string>
+    <string name="title_shop">新闻</string>
+    <string name="title_projects">历史记录</string>
+    <string name="title_discover">我的设置</string>
+</resources>
