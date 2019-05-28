@@ -35,4 +35,6 @@
     <string name="account_null">帐号不能为空，请重新输入</string>
     <string name="password_null">密码不能为空，请重新输入</string>
     <string name="register_password_error">两次输入的密码不一致，请重新输过</string>
+
+    <string name="error_gif">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
 </resources>

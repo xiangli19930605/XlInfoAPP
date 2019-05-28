@@ -2,6 +2,7 @@
           package="me.jessyan.armscomponent.commonsdk">
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEM"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,4 +24,17 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <application>
+    <activity android:name=".base.activity.ScanActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="me.jessyan.armscomponent.commonsdk.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
+    </application>
 </manifest>

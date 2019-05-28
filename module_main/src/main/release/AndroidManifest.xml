@@ -7,6 +7,7 @@
         <meta-data
             android:name="com.xgli.module_main.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
     </application>
 
 </manifest>

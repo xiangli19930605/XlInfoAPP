@@ -1,5 +1,6 @@
 package com.xgli.module_main.mvp.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -23,6 +25,8 @@ import com.xgli.module_main.mvp.presenter.SecondPresenter;
 import com.xgli.module_main.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import me.jessyan.armscomponent.commonsdk.base.activity.ScanActivity;
 import me.jessyan.armscomponent.commonsdk.base.fragment.BaseFragment;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -41,12 +45,15 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class SecondFragment extends BaseFragment<SecondPresenter> implements SecondContract.View {
+    @BindView(R2.id.tv_scan)
+    TextView tv_scan;
     @BindView(R2.id.tl_fragment_tab)
     TabLayout tabLayout;
-        @BindView(R2.id.vp_fragment_index_display)
-     WrappedViewPager display;
+    @BindView(R2.id.vp_fragment_index_display)
+    WrappedViewPager display;
     @BindView(R2.id.iv_fragment_index_expend_list)
     ImageView expend;
+
     public static SecondFragment newInstance() {
         SecondFragment fragment = new SecondFragment();
         return fragment;
@@ -143,5 +150,23 @@ public class SecondFragment extends BaseFragment<SecondPresenter> implements Sec
     @Override
     protected void initEventAndData() {
 
+    }
+
+    @OnClick({R2.id.tv_scan})
+    public void onClick(View v) {
+
+        if (v.getId() == R.id.tv_scan) {
+            startActivityForResult(new Intent(getActivity(), ScanActivity.class),ScanActivity.REQUEST_CODE_SUCCESS);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == ScanActivity.REQUEST_CODE_SUCCESS) {
+
+            tv_scan.setText(data.getStringExtra(ScanActivity.RESULT));
+
+        }
     }
 }
