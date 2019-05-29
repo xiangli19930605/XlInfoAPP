@@ -18,13 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jess.arms.di.component.AppComponent;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
-import com.zhihu.matisse.listener.OnCheckedListener;
-import com.zhihu.matisse.listener.OnSelectedListener;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 
 
 import java.util.List;
@@ -36,9 +32,9 @@ import me.jessyan.armscomponent.commonsdk.R;
 import me.jessyan.armscomponent.commonsdk.app.GlideImageLoader;
 
 /**
- * Describe：带下拉刷新 上拉加载更多的Activity
- * 内部实现为刷新控件 PullToRefreshLayout + 列表控件 RecyclerView
- * Created by 吴天强 on 2018/10/23.
+ * 二维码扫描   用了两个三方库
+ *
+ *
  */
 public class ScanActivity extends BaseActivity implements QRCodeView.Delegate, View.OnClickListener {
     private static final String TAG = ScanActivity.class.getSimpleName();
@@ -84,26 +80,10 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate, V
         });
         mZXingView = findViewById(R.id.zxingview);
         mZXingView.setDelegate(this);
-//        initImagePicker();
     }
 
 
-//    ImagePicker imagePicker;
-//
-//    private void initImagePicker() {
-//        imagePicker = ImagePicker.getInstance();
-//        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
-//        imagePicker.setShowCamera(true);                      //显示拍照按钮
-//        imagePicker.setCrop(true);                           //允许裁剪（单选才有效）
-//        imagePicker.setMultiMode(true);                        //是否单选
-//        imagePicker.setSaveRectangle(true);                   //是否按矩形区域保存
-//        imagePicker.setSelectLimit(1);              //选中数量限制
-//        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
-//        imagePicker.setFocusWidth(750);                       //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-//        imagePicker.setFocusHeight(750);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
-//        imagePicker.setOutPutX(1000);                         //保存文件的宽度。单位像素
-//        imagePicker.setOutPutY(1000);                         //保存文件的高度。单位像素
-//    }
+
 
     @Override
     protected void onStart() {
@@ -254,107 +234,91 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate, V
         //                break;
         if (v.getId() == R.id.tv_photo) {
 
-            Matisse.from(this)
-                    .choose(MimeType.ofAll(), false)
-                    .countable(true)
-                    .capture(true)
-                    .captureStrategy(
-                            new CaptureStrategy(true, "me.jessyan.armscomponent.commonsdk.fileprovider","test"))
-                    .maxSelectable(1)
-                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                    .gridExpectedSize(
-                            getResources().getDimensionPixelSize(R.dimen.dp_120))
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                    .thumbnailScale(0.85f)
-//                                            .imageEngine(new GlideEngine())  // for glide-V3
-                    .imageEngine(new Glide4Engine())    // for glide-V4
-                    .setOnSelectedListener(new OnSelectedListener() {
-                        @Override
-                        public void onSelected(
-                                @NonNull List<Uri> uriList, @NonNull List<String> pathList) {
-                            // DO SOMETHING IMMEDIATELY HERE
-                            Log.e("onSelected", "onSelected: pathList=" + pathList);
-
-                        }
-                    })
-                    .originalEnable(true)
-                    .maxOriginalSize(10)
-                    .autoHideToolbarOnSingleTap(true)
-                    .setOnCheckedListener(new OnCheckedListener() {
-                        @Override
-                        public void onCheck(boolean isChecked) {
-                            // DO SOMETHING IMMEDIATELY HERE
-                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                        }
-                    })
-                    .forResult(REQUEST_CODE_SELECT);
-//            startActivityForResult(intent1, REQUEST_CODE_SELECT);
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                    .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
+                    .maxSelectNum(1)// 最大图片选择数量
+                    .minSelectNum(1)// 最小选择数量
+                    .imageSpanCount(4)// 每行显示个数
+                    .selectionMode(true ?
+                            PictureConfig.MULTIPLE : PictureConfig.SINGLE)// 多选 or 单选
+                    .previewImage(true)// 是否可预览图片
+                    .previewVideo(true)// 是否可预览视频
+                    .enablePreviewAudio(true) // 是否可播放音频
+                    .isCamera(true)// 是否显示拍照按钮
+                    .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                    //.imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                    //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
+                    .enableCrop(false)// 是否裁剪
+                    .compress(false)// 是否压缩
+                    .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                    //.compressSavePath(getPath())//压缩图片保存地址
+                    //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                    .glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                    .withAspectRatio(0, 0)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                    .hideBottomControls(true ? false : true)// 是否显示uCrop工具栏，默认不显示
+                    .isGif(true)// 是否显示gif图片
+                    .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
+                    .circleDimmedLayer(false)// 是否圆形裁剪
+                    .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                    .showCropGrid(true)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                    .openClickSound(true)// 是否开启点击声音
+//                    .selectionMedia(selectList)// 是否传入已选图片
+                    //.isDragFrame(false)// 是否可拖动裁剪框(固定)
+//                        .videoMaxSecond(15)
+//                        .videoMinSecond(10)
+                    //.previewEggs(false)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
+                    //.cropCompressQuality(90)// 裁剪压缩质量 默认100
+                    .minimumCompressSize(100)// 小于100kb的图片不压缩
+//                    .cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效
+                    //.rotateEnabled(true) // 裁剪是否可旋转图片
+                    //.scaleEnabled(true)// 裁剪是否可放大缩小图片
+                    //.videoQuality()// 视频录制质量 0 or 1
+                    //.videoSecond()//显示多少秒以内的视频or音频也可适用
+                    //.recordVideoSecond()//录制视频秒数 默认60s
+                    .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
         } else if (v.getId() == R.id.tv_light) {
 
         }
     }
-
-    public static final int REQUEST_CODE_SELECT = 100;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         mZXingView.startSpotAndShowRect(); // 显示扫描框，并开始识别
-//        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
-//            if (data != null && requestCode == REQUEST_CODE_SELECT) {
-//                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-//                final String picturePath = images.get(0).path;
-//                new AsyncTask<Void, Void, String>() {
-//                    @Override
-//                    protected String doInBackground(Void... params) {
-//                        return QRCodeDecoder.syncDecodeQRCode(picturePath);
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(String result) {
-//                        if (TextUtils.isEmpty(result)) {
-//                            Toast.makeText(ScanActivity.this, "未发现二维码", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(ScanActivity.this, result, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }.execute();
-//
-//            } else {
-//                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-        if (requestCode == REQUEST_CODE_SELECT && resultCode == RESULT_OK) {
-            List<String> mSelected;
-            mSelected = Matisse.obtainPathResult(data);
+        if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == RESULT_OK) {
+            String
+              mSelected = PictureSelector.obtainMultipleResult(data).get(0).getPath();
+            // 例如 LocalMedia 里面返回三种path
+            // 1.media.getPath(); 为原图path
+            // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+            // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+            // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+
             new AsyncTask<Void, Void, String>() {
-                    @Override
-                    protected String doInBackground(Void... params) {
-                        return QRCodeDecoder.syncDecodeQRCode(mSelected.get(0));
-                    }
+                @Override
+                protected String doInBackground(Void... params) {
+                    return QRCodeDecoder.syncDecodeQRCode(mSelected);
+                }
 
-                    @Override
-                    protected void onPostExecute(String result) {
-                        if (TextUtils.isEmpty(result)) {
-                            Toast.makeText(ScanActivity.this, "未发现二维码", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent dataIntent = new Intent();
-                            dataIntent.putExtra(RESULT, result);
-                            setResult(RESULT_OK, dataIntent);
-                            finish();
+                @Override
+                protected void onPostExecute(String result) {
+                    if (TextUtils.isEmpty(result)) {
+                        Toast.makeText(ScanActivity.this, "未发现二维码", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent dataIntent = new Intent();
+                        dataIntent.putExtra(RESULT, result);
+                        setResult(RESULT_OK, dataIntent);
+                        finish();
 //                            Toast.makeText(ScanActivity.this, result, Toast.LENGTH_SHORT).show();
-                        }
                     }
-                }.execute();
+                }
+            }.execute();
 
-            } else {
-                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
-            }
-
-
+        } else {
+            Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
         }
-//    }
 
+    }
 
 }
